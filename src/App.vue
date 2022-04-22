@@ -1,12 +1,28 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <Nav />
+  <div class="container">
+    <router-view />
+  </div>
 </template>
 
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import Nav from "@/components/Nav/Nav.vue";
+
+@Options({
+  components: {
+    Nav,
+  },
+})
+export default class App extends Vue {}
+</script>
 <style lang="scss">
+@import "~materialize-css/dist/css/materialize.min.css";
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,5 +42,13 @@ nav {
       color: #42b983;
     }
   }
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+select {
+  display: block;
 }
 </style>
