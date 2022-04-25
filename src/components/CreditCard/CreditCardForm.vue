@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <Card :models="models" />
+    <Card :models="models" :isCardFlipped="isCardFlipped" />
     <form
       @submit.prevent="submitHandler"
       class="col s12 m8 l8 offset-l2 offset-m2"
@@ -13,6 +13,7 @@
             class="validate"
             required
             autocomplete="off"
+            data-ref="cardNumber"
             v-model="models.cardNumber"
           />
           <label for="models.cardNumber">Card Number</label>
@@ -72,14 +73,16 @@
           Submit
         </button>
       </div>
+      {{ models }}
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
-import { monthOptions, yearOptions } from "./data";
-import { cardType } from "@/components/CreditCard/types";
+import { Options, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+import { cardVendors, cardVendorsSrc, monthOptions, yearOptions } from "./data";
+import { cardModel, cardVendorsModel } from "@/components/CreditCard/types";
 import { cardModule } from "@/store/CardModule";
 // components
 import Card from "@/components/CreditCard/Card.vue";
@@ -90,18 +93,49 @@ import Card from "@/components/CreditCard/Card.vue";
   },
 })
 export default class CreditCardForm extends Vue {
-  public models = {
+  public models: cardModel = {
+    id: Date.now(),
     cardNumber: "",
     cardName: "",
     cardMonth: "",
     cardYear: "",
     cardCvv: "",
     cardBackground: Math.floor(Math.random() * 4 + 1),
-    isCardFlipped: false,
+    cardType: { type: cardVendors.DEFAULT, src: cardVendorsSrc.DEFAULT },
   };
-
+  public isCardFlipped = false;
   public mOptions = monthOptions;
   public yOptions = yearOptions;
+
+  @Watch("models.cardNumber")
+  onCardNumberChanged(val: string) {
+    this.models.cardType = this.cardNumberType(val);
+  }
+
+  cardNumberType(cardNumber: string): cardVendorsModel {
+    let re = new RegExp("^4");
+
+    if (cardNumber.match(re) != null)
+      return { type: cardVendors.VISA, src: cardVendorsSrc.VISA };
+
+    re = new RegExp("^(34|37)");
+    if (cardNumber.match(re) != null)
+      return { type: cardVendors.AMEX, src: cardVendorsSrc.AMEX };
+
+    re = new RegExp("^5[1-5]");
+    if (cardNumber.match(re) != null)
+      return { type: cardVendors.MASTERCARD, src: cardVendorsSrc.MASTERCARD };
+
+    re = new RegExp("^6011");
+    if (cardNumber.match(re) != null)
+      return { type: cardVendors.DISCOVER, src: cardVendorsSrc.DISCOVER };
+
+    re = new RegExp("^9792");
+    if (cardNumber.match(re) != null)
+      return { type: cardVendors.TROY, src: cardVendorsSrc.TROY };
+
+    return { type: cardVendors.VISA, src: cardVendorsSrc.VISA };
+  }
 
   updateCvvValue(event: { target: { value: string } }) {
     const value = event.target.value;
@@ -112,20 +146,11 @@ export default class CreditCardForm extends Vue {
   }
 
   flipCard(status: boolean) {
-    this.models.isCardFlipped = status;
+    this.isCardFlipped = status;
   }
 
   submitHandler() {
-    const card: cardType = {
-      id: Date.now(),
-      cardNumber: this.models.cardNumber,
-      cardName: this.models.cardName,
-      cardMonth: this.models.cardMonth,
-      cardYear: this.models.cardYear,
-      cardCvv: this.models.cardCvv,
-      cardBackground: this.models.cardBackground,
-    };
-    cardModule.createCard(card);
+    cardModule.createCard(this.models);
   }
 }
 </script>

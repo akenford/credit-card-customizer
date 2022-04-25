@@ -1,22 +1,24 @@
 import { VuexModule, Module, Action, Mutation } from "vuex-class-modules";
-import { cardType } from "@/components/CreditCard/types";
+import { cardModel } from "@/components/CreditCard/types";
 
 @Module()
 class CardModule extends VuexModule {
-  private cards: cardType[] = JSON.parse(localStorage.getItem("cards") || "[]");
+  private cards: cardModel[] = JSON.parse(
+    localStorage.getItem("cards") || "[]"
+  );
 
-  get getCards(): cardType[] {
+  get getCards(): cardModel[] {
     return this.cards;
   }
 
   @Mutation
-  addCard(card: cardType): void {
+  addCard(card: cardModel): void {
     this.cards.push(card);
     localStorage.setItem("cards", JSON.stringify(this.cards));
   }
 
   @Action
-  createCard(card: cardType): void {
+  createCard(card: cardModel): void {
     this.addCard(card);
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="card-list">
-    <div class="card-item" :class="{ '-active': models.isCardFlipped }">
+    <div class="card-item" :class="{ '-active': isCardFlipped }">
       <div class="card-item__side -front">
         <div
           class="card-item__focus"
@@ -26,13 +26,9 @@
             <div class="card-item__type">
               <transition name="slide-fade-up">
                 <img
-                  :src="
-                    'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' +
-                    getCardType +
-                    '.png'
-                  "
-                  v-if="getCardType"
-                  :key="getCardType"
+                  :src="models.cardType.src"
+                  v-if="models.cardType.type"
+                  :key="models.cardType.type"
                   alt=""
                   class="card-item__typeImg"
                 />
@@ -42,9 +38,9 @@
           <label
             for="models.cardNumber"
             class="card-item__number"
-            ref="models.cardNumber"
+            ref="cardNumber"
           >
-            <template v-if="getCardType === 'amex'">
+            <template v-if="models.cardType.type === 'amex'">
               <span v-for="(n, $index) in amexCardMask" :key="$index">
                 <transition name="slide-fade-up">
                   <div
@@ -113,11 +109,7 @@
             </template>
           </label>
           <div class="card-item__content">
-            <label
-              for="models.cardName"
-              class="card-item__info"
-              ref="models.cardName"
-            >
+            <label for="models.cardName" class="card-item__info" ref="cardName">
               <div class="card-item__holder">Card Holder</div>
               <transition name="slide-fade-up">
                 <div
@@ -182,12 +174,8 @@
           </div>
           <div class="card-item__type">
             <img
-              :src="
-                'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' +
-                getCardType +
-                '.png'
-              "
-              v-if="getCardType"
+              :src="models.cardType.src"
+              v-if="models.cardType.type"
               class="card-item__typeImg"
               alt=""
             />
@@ -200,47 +188,31 @@
 
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
+import { cardModel } from "@/components/CreditCard/types";
 
 @Options({
   name: "Card",
-  props: {
-    models: {
-      type: Object,
-      default: () => {
-        return {
-          cardNumber: String,
-          cardName: String,
-          cardCvv: String,
-          cardYear: String,
-          cardMonth: String,
-          isCardFlipped: Boolean,
-        };
-      },
-    },
-  },
 })
 export default class Card extends Vue {
-  public focusElementStyle = {};
-  public getCardType = "visa";
-  public otherCardMask = "#### #### #### ####";
-  public isInputFocused = false;
+  @Prop({ required: true })
+  readonly models!: cardModel;
 
-  // focusInput(e) {
-  // this.isInputFocused = true;
-  // let targetRef = e.target.dataset.ref;
-  // let target = this.$refs[targetRef];
-  // console.log(this.$refs);
-  // console.log(targetRef);
-  // this.focusElementStyle = {
-  //   width: `${target.offsetWidth}px`,
-  //   height: `${target.offsetHeight}px`,
-  //   transform: `translateX(${target.offsetLeft}px) translateY(${target.offsetTop}px)`
-  // }
-  // }
+  @Prop({ default: false, type: Boolean, required: true })
+  readonly isCardFlipped!: boolean;
+
+  @Prop({ default: "", type: String, required: false })
+  readonly targetRef!: string;
+
+  public focusElementStyle = {};
+  public otherCardMask = "#### #### #### ####";
+  public amexCardMask = "#### ###### #####";
 }
 </script>
 
 <style lang="scss" scoped>
+@import "src/styles/transitions";
+
 .card-list {
   margin: 30px 0;
 }
@@ -254,13 +226,7 @@ export default class Card extends Vue {
   width: 100%;
 
   @media screen and (max-width: 480px) {
-    max-width: 310px;
     height: 220px;
-    width: 90%;
-  }
-
-  @media screen and (max-width: 360px) {
-    height: 180px;
   }
 
   &.-active {
@@ -287,6 +253,20 @@ export default class Card extends Vue {
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgb(8, 20, 47);
+      height: 100%;
+      border-radius: 5px;
+      filter: blur(25px);
+      opacity: 0.5;
+    }
 
     &.-active {
       opacity: 1;

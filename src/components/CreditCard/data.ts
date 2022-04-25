@@ -1,6 +1,6 @@
-import { mountYearType } from "@/components/CreditCard/types";
+import { mountYearModel } from "@/components/CreditCard/types";
 
-export const monthOptions: mountYearType[] = [
+export const monthOptions: mountYearModel[] = [
   { text: "01", value: "01" },
   { text: "02", value: "02" },
   { text: "03", value: "03" },
@@ -14,7 +14,7 @@ export const monthOptions: mountYearType[] = [
   { text: "11", value: "11" },
   { text: "12", value: "12" },
 ];
-export const yearOptions: mountYearType[] = [
+export const yearOptions: mountYearModel[] = [
   { text: "2022", value: "2022" },
   { text: "2023", value: "2023" },
   { text: "2024", value: "2024" },
@@ -28,3 +28,20 @@ export const yearOptions: mountYearType[] = [
   { text: "2032", value: "2032" },
   { text: "2033", value: "2033" },
 ];
+
+export const enum cardVendors {
+  VISA = "visa",
+  MASTERCARD = "mastercard",
+  AMEX = "amex",
+  DISCOVER = "discover",
+  TROY = "troy",
+  DEFAULT = "",
+}
+export const enum cardVendorsSrc {
+  VISA = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png",
+  MASTERCARD = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/mastercard.png",
+  AMEX = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/amex.png",
+  DISCOVER = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/discover.png",
+  TROY = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/troy.png",
+  DEFAULT = "",
+}
