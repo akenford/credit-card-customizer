@@ -1,4 +1,4 @@
-import { mountYearModel } from "@/components/CreditCard/types";
+import { mountYearModel } from "@/types";
 
 export const monthOptions: mountYearModel[] = [
   { text: "01", value: "01" },
@@ -44,4 +44,8 @@ export const enum cardVendorsSrc {
   DISCOVER = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/discover.png",
   TROY = "https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/troy.png",
   DEFAULT = "",
+}
+export const enum cardVendorsMask {
+  DEFAULT = "#### #### #### ####",
+  AMEX = "#### ###### #####",
 }

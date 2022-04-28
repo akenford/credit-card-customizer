@@ -41,7 +41,7 @@
             ref="cardNumber"
           >
             <template v-if="models.cardType.type === 'amex'">
-              <span v-for="(n, $index) in amexCardMask" :key="$index">
+              <span v-for="(n, $index) in models.cardType.mask" :key="$index">
                 <transition name="slide-fade-up">
                   <div
                     class="card-item__numberItem"
@@ -75,7 +75,7 @@
             </template>
 
             <template v-else>
-              <span v-for="(n, $index) in otherCardMask" :key="$index">
+              <span v-for="(n, $index) in models.cardType.mask" :key="$index">
                 <transition name="slide-fade-up">
                   <div
                     class="card-item__numberItem"
@@ -189,7 +189,7 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { cardModel } from "@/components/CreditCard/types";
+import { cardModel } from "@/types";
 
 @Options({
   name: "Card",
@@ -205,8 +205,6 @@ export default class Card extends Vue {
   readonly targetRef!: string;
 
   public focusElementStyle = {};
-  public otherCardMask = "#### #### #### ####";
-  public amexCardMask = "#### ###### #####";
 }
 </script>
 
@@ -253,7 +251,6 @@ export default class Card extends Vue {
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.65);
 
     &:after {
       content: "";
@@ -278,6 +275,7 @@ export default class Card extends Vue {
     overflow: hidden;
     box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
     transform: perspective(2000px) rotateY(0deg) rotateX(0deg) rotate(0deg);
+    will-change: transform;
     transform-style: preserve-3d;
     transition: all 0.8s cubic-bezier(0.71, 0.03, 0.56, 0.85);
     backface-visibility: hidden;
@@ -289,12 +287,14 @@ export default class Card extends Vue {
       left: 0;
       width: 100%;
       transform: perspective(2000px) rotateY(-180deg) rotateX(0deg) rotate(0deg);
+      will-change: transform;
       z-index: 2;
       padding: 0;
       height: 100%;
 
       .card-item__cover {
         transform: rotateY(-180deg);
+        will-change: transform;
       }
     }
   }

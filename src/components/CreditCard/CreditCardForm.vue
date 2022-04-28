@@ -80,8 +80,8 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
-import { cardVendors, cardVendorsSrc, monthOptions, yearOptions } from "./data";
-import { cardModel } from "@/components/CreditCard/types";
+import { monthOptions, yearOptions } from "./data";
+import { cardModel } from "@/types";
 import { cardModule } from "@/store/CardModule";
 
 // components
@@ -89,6 +89,7 @@ import Card from "@/components/CreditCard/Card.vue";
 
 // helpers
 import { cardNumberType } from "@/helpers";
+import CardVendor from "@/entities/CardVendors/CardVendor";
 
 @Options({
   components: {
@@ -104,7 +105,7 @@ export default class CreditCardForm extends Vue {
     cardYear: "",
     cardCvv: "",
     cardBackground: Math.floor(Math.random() * 4 + 1),
-    cardType: { type: cardVendors.DEFAULT, src: cardVendorsSrc.DEFAULT },
+    cardType: new CardVendor(),
   };
   public isCardFlipped = false;
   public mOptions = monthOptions;

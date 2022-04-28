@@ -24,7 +24,7 @@
               </li>
             </router-link>
             <li>
-              <router-link to="/about" active-class="active">
+              <router-link to="/list" active-class="active">
                 Cards List
               </router-link>
             </li>

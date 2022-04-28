@@ -1,5 +1,5 @@
 import { VuexModule, Module, Action, Mutation } from "vuex-class-modules";
-import { cardModel } from "@/components/CreditCard/types";
+import { cardModel } from "@/types";
 
 @Module()
 class CardModule extends VuexModule {

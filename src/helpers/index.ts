@@ -1,27 +1,19 @@
-import { cardVendorsModel } from "@/components/CreditCard/types";
-import { cardVendors, cardVendorsSrc } from "@/components/CreditCard/data";
+import { cardVendorsModel } from "@/types";
+import Visa from "@/entities/CardVendors/Visa";
+import Amex from "@/entities/CardVendors/Amex";
+import MasterCard from "@/entities/CardVendors/MasterCard";
+import Discover from "@/entities/CardVendors/Discover";
+import Troy from "@/entities/CardVendors/Troy";
+import CardVendorsDetector from "@/entities/CardVendorsDetector";
 
 export const cardNumberType = (cardNumber: string): cardVendorsModel => {
-  let re = new RegExp("^4");
+  const cartVendorsDetector = new CardVendorsDetector([
+    new Visa(),
+    new Amex(),
+    new MasterCard(),
+    new Discover(),
+    new Troy(),
+  ]);
 
-  if (cardNumber.match(re) != null)
-    return { type: cardVendors.VISA, src: cardVendorsSrc.VISA };
-
-  re = new RegExp("^(34|37)");
-  if (cardNumber.match(re) != null)
-    return { type: cardVendors.AMEX, src: cardVendorsSrc.AMEX };
-
-  re = new RegExp("^5[1-5]");
-  if (cardNumber.match(re) != null)
-    return { type: cardVendors.MASTERCARD, src: cardVendorsSrc.MASTERCARD };
-
-  re = new RegExp("^6011");
-  if (cardNumber.match(re) != null)
-    return { type: cardVendors.DISCOVER, src: cardVendorsSrc.DISCOVER };
-
-  re = new RegExp("^9792");
-  if (cardNumber.match(re) != null)
-    return { type: cardVendors.TROY, src: cardVendorsSrc.TROY };
-
-  return { type: cardVendors.DEFAULT, src: cardVendorsSrc.DEFAULT };
+  return cartVendorsDetector.detect(cardNumber);
 };
