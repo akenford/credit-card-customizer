@@ -1,6 +1,6 @@
 <template>
   <Nav />
-  <div class="container">
+  <div class="container-fluid">
     <router-view />
   </div>
 </template>

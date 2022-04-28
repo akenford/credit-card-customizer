@@ -1,10 +1,7 @@
 <template>
   <div class="row">
     <Card :models="models" :isCardFlipped="isCardFlipped" />
-    <form
-      @submit.prevent="submitHandler"
-      class="col s12 m8 l8 offset-l2 offset-m2"
-    >
+    <form @submit.prevent="submit" class="col s12 m8 l8 offset-l2 offset-m2">
       <div class="row">
         <div class="input-field col s12">
           <input
@@ -69,8 +66,22 @@
             {{ models.cardCvv.length }}/3
           </span>
         </div>
-        <button type="submit" class="waves-effect waves-light btn">
+        <div v-if="isLoading" class="preloader-wrapper small active">
+          <div class="spinner-layer spinner-green-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+        <button v-else type="submit" class="btn waves-effect waves-light">
           Submit
+          <i class="material-icons right">send</i>
         </button>
       </div>
     </form>
@@ -83,6 +94,7 @@ import { Watch } from "vue-property-decorator";
 import { monthOptions, yearOptions } from "./data";
 import { cardModel } from "@/types";
 import { cardModule } from "@/store/CardModule";
+import Routes from "@/router/routes";
 
 // components
 import Card from "@/components/CreditCard/Card.vue";
@@ -110,6 +122,7 @@ export default class CreditCardForm extends Vue {
   public isCardFlipped = false;
   public mOptions = monthOptions;
   public yOptions = yearOptions;
+  public isLoading = false;
 
   @Watch("models.cardNumber")
   onCardNumberChanged(val: string) {
@@ -128,8 +141,14 @@ export default class CreditCardForm extends Vue {
     this.isCardFlipped = status;
   }
 
-  submitHandler() {
+  submit() {
     cardModule.createCard(this.models);
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.isLoading = false;
+      this.$router.push({ path: Routes.LIST });
+    }, 2000);
   }
 }
 </script>

@@ -6,7 +6,7 @@
           <router-link class="brand-logo" to="/">Card customizer</router-link>
           <ul class="right hide-on-med-and-down">
             <router-link
-              to="/"
+              :to="routes.HOME"
               active-class="active"
               custom
               v-slot="{ href, isActive, isExactActive }"
@@ -24,7 +24,7 @@
               </li>
             </router-link>
             <li>
-              <router-link to="/list" active-class="active">
+              <router-link :to="routes.LIST" active-class="active">
                 Cards List
               </router-link>
             </li>
@@ -37,8 +37,11 @@
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import Routes from "@/router/routes";
 
-export default class Nav extends Vue {}
+export default class Nav extends Vue {
+  public routes = Routes;
+}
 </script>
 
 <style lang="scss" scoped>

@@ -17,9 +17,23 @@ class CardModule extends VuexModule {
     localStorage.setItem("cards", JSON.stringify(this.cards));
   }
 
+  @Mutation
+  deleteCard(id: number): void {
+    this.cards.splice(
+      this.cards.findIndex((i: cardModel) => i.id === id),
+      1
+    );
+    localStorage.setItem("cards", JSON.stringify(this.cards));
+  }
+
   @Action
   createCard(card: cardModel): void {
     this.addCard(card);
+  }
+
+  @Action
+  removeCard(id: number): void {
+    this.deleteCard(id);
   }
 }
 

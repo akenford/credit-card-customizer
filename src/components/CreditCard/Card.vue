@@ -1,188 +1,201 @@
 <template>
   <div class="card-list">
-    <div class="card-item" :class="{ '-active': isCardFlipped }">
-      <div class="card-item__side -front">
-        <div
-          class="card-item__focus"
-          :class="{ '-active': focusElementStyle }"
-          :style="focusElementStyle"
-          ref="focusElement"
-        ></div>
-        <div class="card-item__cover">
-          <img
-            :src="'img/cards_bg/' + models.cardBackground + '.svg'"
-            class="card-item__bg"
-            alt="card front bg"
-          />
-        </div>
-
-        <div class="card-item__wrapper">
-          <div class="card-item__top">
+    <transition name="slide-fade-up">
+      <div
+        class="card-item"
+        :class="{ '-active': isCardFlipped || flipOnHover }"
+        @mouseenter="handleHover(true)"
+        @mouseleave="handleHover(false)"
+      >
+        <div class="card-item__side -front">
+          <div
+            class="card-item__focus"
+            :class="{ '-active': focusElementStyle }"
+            :style="focusElementStyle"
+            ref="focusElement"
+          ></div>
+          <div class="card-item__cover">
             <img
-              src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
-              class="card-item__chip"
-              alt=""
+              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              class="card-item__bg"
+              alt="card front bg"
             />
-            <div class="card-item__type">
-              <transition name="slide-fade-up">
-                <img
-                  :src="models.cardType.src"
-                  v-if="models.cardType.type"
-                  :key="models.cardType.type"
-                  alt=""
-                  class="card-item__typeImg"
-                />
-              </transition>
-            </div>
           </div>
-          <label
-            for="models.cardNumber"
-            class="card-item__number"
-            ref="cardNumber"
-          >
-            <template v-if="models.cardType.type === 'amex'">
-              <span v-for="(n, $index) in models.cardType.mask" :key="$index">
-                <transition name="slide-fade-up">
-                  <div
-                    class="card-item__numberItem"
-                    v-if="
-                      $index > 4 &&
-                      $index < 14 &&
-                      models.cardNumber.length > $index &&
-                      n.trim() !== ''
-                    "
-                  >
-                    *
-                  </div>
-                  <div
-                    class="card-item__numberItem"
-                    :class="{ '-active': n.trim() === '' }"
-                    :key="$index"
-                    v-else-if="models.cardNumber.length > $index"
-                  >
-                    {{ models.cardNumber[$index] }}
-                  </div>
-                  <div
-                    class="card-item__numberItem"
-                    :class="{ '-active': n.trim() === '' }"
-                    v-else
-                    :key="$index + 1"
-                  >
-                    {{ n }}
-                  </div>
-                </transition>
-              </span>
-            </template>
 
-            <template v-else>
-              <span v-for="(n, $index) in models.cardType.mask" :key="$index">
+          <div class="card-item__wrapper">
+            <div class="card-item__top">
+              <img
+                src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
+                class="card-item__chip"
+                alt=""
+              />
+              <div class="card-item__type">
                 <transition name="slide-fade-up">
-                  <div
-                    class="card-item__numberItem"
-                    v-if="
-                      $index > 4 &&
-                      $index < 15 &&
-                      models.cardNumber.length > $index &&
-                      n.trim() !== ''
-                    "
-                  >
-                    *
-                  </div>
-                  <div
-                    class="card-item__numberItem"
-                    :class="{ '-active': n.trim() === '' }"
-                    :key="$index"
-                    v-else-if="models.cardNumber.length > $index"
-                  >
-                    {{ models.cardNumber[$index] }}
-                  </div>
-                  <div
-                    class="card-item__numberItem"
-                    :class="{ '-active': n.trim() === '' }"
-                    v-else
-                    :key="$index + 1"
-                  >
-                    {{ n }}
-                  </div>
+                  <img
+                    :src="models.cardType.src"
+                    v-if="models.cardType.type"
+                    :key="models.cardType.type"
+                    alt=""
+                    class="card-item__typeImg"
+                  />
                 </transition>
-              </span>
-            </template>
-          </label>
-          <div class="card-item__content">
-            <label for="models.cardName" class="card-item__info" ref="cardName">
-              <div class="card-item__holder">Card Holder</div>
-              <transition name="slide-fade-up">
-                <div
-                  class="card-item__name"
-                  v-if="models.cardName.length"
-                  key="1"
-                >
-                  <transition-group name="slide-fade-right">
-                    <span
-                      class="card-item__nameItem"
-                      v-for="(n, $index) in models.cardName.replace(
-                        /\s\s+/g,
-                        ' '
-                      )"
+              </div>
+            </div>
+            <label
+              for="models.cardNumber"
+              class="card-item__number"
+              ref="cardNumber"
+            >
+              <template v-if="models.cardType.type === 'amex'">
+                <span v-for="(n, $index) in models.cardType.mask" :key="$index">
+                  <transition name="slide-fade-up">
+                    <div
+                      class="card-item__numberItem"
+                      v-if="
+                        $index > 4 &&
+                        $index < 14 &&
+                        models.cardNumber.length > $index &&
+                        n.trim() !== ''
+                      "
+                    >
+                      *
+                    </div>
+                    <div
+                      class="card-item__numberItem"
+                      :class="{ '-active': n.trim() === '' }"
+                      :key="$index"
+                      v-else-if="models.cardNumber.length > $index"
+                    >
+                      {{ models.cardNumber[$index] }}
+                    </div>
+                    <div
+                      class="card-item__numberItem"
+                      :class="{ '-active': n.trim() === '' }"
+                      v-else
                       :key="$index + 1"
                     >
                       {{ n }}
-                    </span>
-                  </transition-group>
-                </div>
-                <div class="card-item__name" v-else key="2">Full Name</div>
-              </transition>
+                    </div>
+                  </transition>
+                </span>
+              </template>
+
+              <template v-else>
+                <span v-for="(n, $index) in models.cardType.mask" :key="$index">
+                  <transition name="slide-fade-up">
+                    <div
+                      class="card-item__numberItem"
+                      v-if="
+                        $index > 4 &&
+                        $index < 15 &&
+                        models.cardNumber.length > $index &&
+                        n.trim() !== ''
+                      "
+                    >
+                      *
+                    </div>
+                    <div
+                      class="card-item__numberItem"
+                      :class="{ '-active': n.trim() === '' }"
+                      :key="$index"
+                      v-else-if="models.cardNumber.length > $index"
+                    >
+                      {{ models.cardNumber[$index] }}
+                    </div>
+                    <div
+                      class="card-item__numberItem"
+                      :class="{ '-active': n.trim() === '' }"
+                      v-else
+                      :key="$index + 1"
+                    >
+                      {{ n }}
+                    </div>
+                  </transition>
+                </span>
+              </template>
             </label>
-            <div class="card-item__date" ref="cardDate">
-              <label for="models.cardMonth" class="card-item__dateTitle"
-                >Expires</label
+            <div class="card-item__content">
+              <label
+                for="models.cardName"
+                class="card-item__info"
+                ref="cardName"
               >
-              <label for="models.cardMonth" class="card-item__dateItem">
+                <div class="card-item__holder">Card Holder</div>
                 <transition name="slide-fade-up">
-                  <span v-if="models.cardMonth" :key="models.cardMonth">
-                    {{ models.cardMonth }}
-                  </span>
-                  <span v-else key="2">MM</span>
+                  <div
+                    class="card-item__name"
+                    v-if="models.cardName.length"
+                    key="1"
+                  >
+                    <transition-group name="slide-fade-right">
+                      <span
+                        class="card-item__nameItem"
+                        v-for="(n, $index) in models.cardName.replace(
+                          /\s\s+/g,
+                          ' '
+                        )"
+                        :key="$index + 1"
+                      >
+                        {{ n }}
+                      </span>
+                    </transition-group>
+                  </div>
+                  <div class="card-item__name" v-else key="2">Full Name</div>
                 </transition>
               </label>
-              /
-              <label for="models.cardYear" class="card-item__dateItem">
-                <transition name="slide-fade-up">
-                  <span v-if="models.cardYear" :key="models.cardYear">
-                    {{ models.cardYear.slice(2, 4) }}
-                  </span>
-                  <span v-else key="2">YY</span>
-                </transition>
-              </label>
+              <div class="card-item__date" ref="cardDate">
+                <label for="models.cardMonth" class="card-item__dateTitle"
+                  >Expires</label
+                >
+                <label for="models.cardMonth" class="card-item__dateItem">
+                  <transition name="slide-fade-up">
+                    <span v-if="models.cardMonth" :key="models.cardMonth">
+                      {{ models.cardMonth }}
+                    </span>
+                    <span v-else key="2">MM</span>
+                  </transition>
+                </label>
+                /
+                <label for="models.cardYear" class="card-item__dateItem">
+                  <transition name="slide-fade-up">
+                    <span v-if="models.cardYear" :key="models.cardYear">
+                      {{ models.cardYear.slice(2, 4) }}
+                    </span>
+                    <span v-else key="2">YY</span>
+                  </transition>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-item__side -back">
+          <div class="card-item__cover">
+            <img
+              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              class="card-item__bg"
+              alt="card item back"
+            />
+          </div>
+          <div class="card-item__band"></div>
+          <div class="card-item__cvv">
+            <div class="card-item__cvvTitle">CVV</div>
+            <div class="card-item__cvvBand">
+              <span v-for="(n, $index) in models.cardCvv" :key="$index">
+                *
+              </span>
+            </div>
+            <div class="card-item__type">
+              <img
+                :src="models.cardType.src"
+                v-if="models.cardType.type"
+                class="card-item__typeImg"
+                alt=""
+              />
             </div>
           </div>
         </div>
       </div>
-      <div class="card-item__side -back">
-        <div class="card-item__cover">
-          <img
-            :src="'img/cards_bg/' + models.cardBackground + '.svg'"
-            class="card-item__bg"
-            alt="card item back"
-          />
-        </div>
-        <div class="card-item__band"></div>
-        <div class="card-item__cvv">
-          <div class="card-item__cvvTitle">CVV</div>
-          <div class="card-item__cvvBand">
-            <span v-for="(n, $index) in models.cardCvv" :key="$index"> * </span>
-          </div>
-          <div class="card-item__type">
-            <img
-              :src="models.cardType.src"
-              v-if="models.cardType.type"
-              class="card-item__typeImg"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -195,16 +208,24 @@ import { cardModel } from "@/types";
   name: "Card",
 })
 export default class Card extends Vue {
+  public flipOnHover = false;
+
+  @Prop({ default: false, type: Boolean })
+  readonly isFlipOnHover!: boolean;
+
   @Prop({ required: true })
   readonly models!: cardModel;
 
   @Prop({ default: false, type: Boolean, required: true })
   readonly isCardFlipped!: boolean;
 
-  @Prop({ default: "", type: String, required: false })
-  readonly targetRef!: string;
-
   public focusElementStyle = {};
+
+  handleHover(isFlip: boolean) {
+    if (this.isFlipOnHover) {
+      this.flipOnHover = isFlip;
+    }
+  }
 }
 </script>
 
@@ -222,6 +243,7 @@ export default class Card extends Vue {
   position: relative;
   z-index: 2;
   width: 100%;
+  cursor: pointer;
 
   @media screen and (max-width: 480px) {
     height: 220px;

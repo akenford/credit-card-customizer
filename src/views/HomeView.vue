@@ -12,6 +12,7 @@ import { Options, Vue } from "vue-class-component";
 import CreditCardForm from "@/components/CreditCard/CreditCardForm.vue";
 
 @Options({
+  name: "HomeView",
   components: { CreditCardForm },
 })
 export default class HomeView extends Vue {}
