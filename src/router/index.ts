@@ -5,20 +5,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: Routes.HOME,
     name: "home",
-    component: () =>
-      import(/* webpackChunkName: "home" */ "../views/HomeView.vue"),
+    component: () => import("../views/HomeView.vue"),
   },
   {
     path: Routes.LIST,
     name: "list",
-    component: () =>
-      import(/* webpackChunkName: "list" */ "../views/ListView.vue"),
+    component: () => import("../views/ListView.vue"),
   },
   {
     path: Routes.CARD,
     name: "card",
-    component: () =>
-      import(/* webpackChunkName: "list" */ "../views/CardView.vue"),
+    component: () => import("../views/CardView.vue"),
   },
 ];
 

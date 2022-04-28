@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <Card :models="models" :isCardFlipped="isCardFlipped" />
-    <form @submit.prevent="submit" class="col s12 m8 l8 offset-l2 offset-m2">
+    <form @submit.prevent="submit" class="form">
       <div class="row">
         <div class="input-field col s12">
           <input
@@ -153,4 +153,10 @@ export default class CreditCardForm extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+</style>

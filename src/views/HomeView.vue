@@ -1,9 +1,7 @@
 <template>
-  <div class="home">
-    <div class="row">
-      <h3>Customize Your Card</h3>
-      <CreditCardForm />
-    </div>
+  <div class="row">
+    <h3>Customize Your Card</h3>
+    <CreditCardForm />
   </div>
 </template>
 
