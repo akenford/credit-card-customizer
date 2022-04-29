@@ -79,10 +79,18 @@
             </div>
           </div>
         </div>
-        <button v-else type="submit" class="btn waves-effect waves-light">
-          Submit
-          <i class="material-icons right">send</i>
-        </button>
+        <Button
+          v-else
+          :btnConfig="{
+            type: 'submit',
+            text: 'Submit',
+            icon: { needShowIcon: true, direction: 'right', type: 'send' },
+            handler: {
+              func: () => null,
+              arg: null,
+            },
+          }"
+        />
       </div>
     </form>
   </div>
@@ -98,13 +106,17 @@ import Routes from "@/router/routes";
 
 // components
 import Card from "@/components/CreditCard/Card.vue";
+import Button from "@/components/Button/Button.vue";
 
 // helpers
 import { cardNumberType } from "@/helpers";
 import CardVendor from "@/entities/CardVendors";
 
 @Options({
-  components: { Card },
+  components: {
+    Card,
+    Button,
+  },
 })
 export default class CreditCardForm extends Vue {
   public models: cardModel = {

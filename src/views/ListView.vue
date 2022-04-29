@@ -4,24 +4,40 @@
     <div v-for="models in cardArray" :key="models.id" class="col xl4 l6 m6 s12">
       <Card :isCardFlipped="false" :isFlipOnHover="true" :models="models" />
       <div class="btns">
-        <transition name="slide-fade-up">
-          <div class="btns_inner">
-            <button
-              class="btn waves-effect waves-light"
-              @click="handleEditCard(models.id)"
-            >
-              Edit
-              <i class="material-icons small right">edit</i>
-            </button>
-            <button
-              class="btn waves-effect waves-light red"
-              @click="handleDeleteCard(models.id)"
-            >
-              Delete
-              <i class="material-icons small right">close</i>
-            </button>
-          </div>
-        </transition>
+        <div class="btns_inner">
+          <Button
+            :btnConfig="{
+              type: 'button',
+              text: 'Edit',
+              icon: {
+                needShowIcon: true,
+                direction: 'right',
+                type: 'edit',
+                additionalStyles: 'light-blue darken-1',
+              },
+              handler: {
+                func: handleEditCard,
+                arg: models.id,
+              },
+            }"
+          />
+          <Button
+            :btnConfig="{
+              type: 'button',
+              text: 'Delete',
+              icon: {
+                needShowIcon: true,
+                direction: 'right',
+                type: 'close',
+                additionalStyles: 'red',
+              },
+              handler: {
+                func: handleDeleteCard,
+                arg: models.id,
+              },
+            }"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -29,14 +45,20 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Card from "@/components/CreditCard/Card.vue";
 import { cardModule } from "@/store/CardModule";
 import { cardModel } from "@/types";
 import Routes from "@/router/routes";
 
+// components
+import Card from "@/components/CreditCard/Card.vue";
+import Button from "@/components/Button/Button.vue";
+
 @Options({
   name: "ListView",
-  components: { Card },
+  components: {
+    Card,
+    Button,
+  },
 })
 export default class ListView extends Vue {
   public cardArray: cardModel[] = [];

@@ -228,7 +228,9 @@ export default class Card extends Vue {
 
   handleHover(isFlip: boolean) {
     if (this.isFlipOnHover) {
-      this.flipOnHover = isFlip;
+      setTimeout(() => {
+        this.flipOnHover = isFlip;
+      }, 700);
     }
   }
 }
