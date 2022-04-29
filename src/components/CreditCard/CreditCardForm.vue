@@ -90,7 +90,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 import { monthOptions, yearOptions } from "./data";
 import { cardModel } from "@/types";
 import { cardModule } from "@/store/CardModule";
@@ -101,12 +101,10 @@ import Card from "@/components/CreditCard/Card.vue";
 
 // helpers
 import { cardNumberType } from "@/helpers";
-import CardVendor from "@/entities/CardVendors/CardVendor";
+import CardVendor from "@/entities/CardVendors";
 
 @Options({
-  components: {
-    Card,
-  },
+  components: { Card },
 })
 export default class CreditCardForm extends Vue {
   public models: cardModel = {
@@ -124,9 +122,27 @@ export default class CreditCardForm extends Vue {
   public yOptions = yearOptions;
   public isLoading = false;
 
+  mounted() {
+    if (this.defaultModels) {
+      setTimeout(() => {
+        window.M.updateTextFields();
+      }, 0);
+    }
+  }
+
+  @Prop({ type: Object })
+  readonly defaultModels!: cardModel;
+
   @Watch("models.cardNumber")
   onCardNumberChanged(val: string) {
     this.models.cardType = cardNumberType(val);
+  }
+
+  @Watch("defaultModels")
+  onCardNumberChanged2(currentCardModel: cardModel) {
+    if (this.defaultModels) {
+      this.models = currentCardModel;
+    }
   }
 
   updateCvvValue(event: { target: { value: string } }) {

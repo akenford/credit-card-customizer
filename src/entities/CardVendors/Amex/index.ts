@@ -1,4 +1,4 @@
-import CardVendor from "@/entities/CardVendors/CardVendor";
+import CardVendor from "@/entities/CardVendors";
 import {
   cardVendors,
   cardVendorsMask,

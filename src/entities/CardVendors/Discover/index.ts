@@ -1,4 +1,4 @@
-import CardVendor from "@/entities/CardVendors/CardVendor";
+import CardVendor from "@/entities/CardVendors";
 import { cardVendors, cardVendorsSrc } from "@/components/CreditCard/data";
 import { cardVendorsRegExp } from "@/types";
 

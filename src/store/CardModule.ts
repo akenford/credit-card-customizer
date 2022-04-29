@@ -11,6 +11,18 @@ class CardModule extends VuexModule {
     return this.cards;
   }
 
+  getCardById(id: number | string): cardModel {
+    let lCard: cardModel | undefined = undefined;
+
+    lCard = this.cards.find((item: cardModel) => item.id === Number(id));
+
+    if (!lCard) {
+      throw new Error("Nothing founded!!!");
+    }
+
+    return lCard;
+  }
+
   @Mutation
   addCard(card: cardModel): void {
     this.cards.push(card);

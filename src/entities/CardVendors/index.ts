@@ -5,7 +5,11 @@ import {
 } from "@/components/CreditCard/data";
 import { cardVendorsModel } from "@/types";
 
-class CardVendor implements cardVendorsModel {
+interface ICardVendor extends cardVendorsModel {
+  compare: (str: string) => object | null;
+}
+
+class CardVendor implements ICardVendor {
   type: cardVendors;
   src: cardVendorsSrc;
   mask: cardVendorsMask;
@@ -22,7 +26,7 @@ class CardVendor implements cardVendorsModel {
   }
 
   compare(str: string): this | null {
-    throw new Error("Compare method should be implemented");
+    throw new Error(`Compare method should be implemented Str value: ${str}`);
   }
 }
 export default CardVendor;

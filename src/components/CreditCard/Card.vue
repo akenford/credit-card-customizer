@@ -16,7 +16,7 @@
           ></div>
           <div class="card-item__cover">
             <img
-              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              :src="'/img/cards_bg/' + models.cardBackground + '.svg'"
               class="card-item__bg"
               alt="card front bg"
             />
@@ -171,7 +171,7 @@
         <div class="card-item__side -back">
           <div class="card-item__cover">
             <img
-              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              :src="'/img/cards_bg/' + models.cardBackground + '.svg'"
               class="card-item__bg"
               alt="card item back"
             />
@@ -180,9 +180,14 @@
           <div class="card-item__cvv">
             <div class="card-item__cvvTitle">CVV</div>
             <div class="card-item__cvvBand">
-              <span v-for="(n, $index) in models.cardCvv" :key="$index">
-                *
-              </span>
+              <div v-if="isFlipOnHover">
+                <span>{{ models.cardCvv }}</span>
+              </div>
+              <div v-else>
+                <span v-for="(n, $index) in models.cardCvv" :key="$index">
+                  *
+                </span>
+              </div>
             </div>
             <div class="card-item__type">
               <img
@@ -247,6 +252,7 @@ export default class Card extends Vue {
 
   @media screen and (max-width: 480px) {
     height: 220px;
+    max-width: 345px;
   }
 
   &.-active {

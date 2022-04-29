@@ -1,13 +1,18 @@
-import CardVendor from "@/entities/CardVendors/CardVendor";
+import CardVendor from "@/entities/CardVendors";
 
-class CardVendorsDetector {
-  private readonly cardVendors: CardVendor[];
+interface ICardDetector {
+  readonly cardVendors: CardVendor[];
+  detect: (str: string) => CardVendor;
+}
+
+class CardDetector implements ICardDetector {
+  readonly cardVendors: CardVendor[];
 
   constructor(cardVendors: CardVendor[]) {
     this.cardVendors = cardVendors;
   }
 
-  detect(str: string) {
+  detect(str: string): CardVendor {
     let detectedCardVendor;
 
     for (let i = 0; i < this.cardVendors.length; i++) {
@@ -21,4 +26,4 @@ class CardVendorsDetector {
     return detectedCardVendor;
   }
 }
-export default CardVendorsDetector;
+export default CardDetector;

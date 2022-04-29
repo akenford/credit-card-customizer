@@ -16,9 +16,9 @@ type mountYearModel = {
 };
 
 type cardVendorsModel = {
-  type: cardVendors;
-  src: cardVendorsSrc;
-  mask: cardVendorsMask;
+  readonly type: cardVendors;
+  readonly src: cardVendorsSrc;
+  readonly mask: cardVendorsMask;
 };
 
 type cardVendorsRegExp = {
