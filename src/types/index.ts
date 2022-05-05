@@ -25,6 +25,21 @@ type cardVendorsRegExp = {
   regex: RegExp;
 };
 
+type btnModel = {
+  type: string;
+  text: string;
+  icon: {
+    needShowIcon: boolean;
+    direction: string;
+    type: string;
+    additionalStyles?: string;
+  };
+  handler: {
+    func: (num: number) => null | void;
+    arg: null | number;
+  };
+};
+
 type cardModel = {
   id: number;
   cardNumber: string;
@@ -36,4 +51,10 @@ type cardModel = {
   cardType: cardVendorsModel;
 };
 
-export { mountYearModel, cardModel, cardVendorsModel, cardVendorsRegExp };
+export {
+  mountYearModel,
+  cardModel,
+  cardVendorsModel,
+  cardVendorsRegExp,
+  btnModel,
+};

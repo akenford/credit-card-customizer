@@ -16,30 +16,32 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
+import { btnModel } from "@/types";
 
 @Options({
   name: "Button",
-  props: {
-    btnConfig: {
-      type: Object,
-      required: true,
-      default: () => ({
-        type: "button",
-        text: "Submit",
-        icon: {
-          needShowIcon: true,
-          direction: "right",
-          text: "send",
-          additionalStyles: "",
-        },
-        handler: {
-          func: () => null,
-          arg: null,
-        },
-      }),
-    },
-  },
 })
-export default class Button extends Vue {}
+export default class Button extends Vue {
+  @Prop({
+    type: Object as () => btnModel,
+    required: true,
+    default: {
+      type: "button",
+      text: "Submit",
+      icon: {
+        needShowIcon: true,
+        direction: "right",
+        type: "send",
+        additionalStyles: "",
+      },
+      handler: {
+        func: () => null,
+        arg: null,
+      },
+    },
+  })
+  readonly btnConfig!: btnModel;
+}
 </script>
 <style lang="scss" scoped></style>

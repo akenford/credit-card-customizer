@@ -1,11 +1,17 @@
 import { VuexModule, Module, Action, Mutation } from "vuex-class-modules";
 import { cardModel } from "@/types";
+import LocalStorageClient from "@/entities/clients/LocalStorageClient";
 
 @Module()
 class CardModule extends VuexModule {
-  private cards: cardModel[] = JSON.parse(
-    localStorage.getItem("cards") || "[]"
-  );
+  private readonly cards: cardModel[];
+  private readonly dataCollector: LocalStorageClient<cardModel> =
+    new LocalStorageClient();
+
+  constructor(options) {
+    super(options);
+    this.cards = this.dataCollector.clientGet("cards");
+  }
 
   get getCards(): cardModel[] {
     return this.cards;
@@ -26,7 +32,7 @@ class CardModule extends VuexModule {
   @Mutation
   addCard(card: cardModel): void {
     this.cards.push(card);
-    localStorage.setItem("cards", JSON.stringify(this.cards));
+    this.dataCollector.clientSet("cards", this.cards);
   }
 
   @Mutation
@@ -35,7 +41,7 @@ class CardModule extends VuexModule {
       this.cards.findIndex((i: cardModel) => i.id === id),
       1
     );
-    localStorage.setItem("cards", JSON.stringify(this.cards));
+    this.dataCollector.clientSet("cards", this.cards);
   }
 
   @Action
