@@ -16,7 +16,7 @@
           ></div>
           <div class="card-item__cover">
             <img
-              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              src="/img/cards_bg/2.svg"
               class="card-item__bg"
               alt="card front bg"
             />
@@ -171,7 +171,7 @@
         <div class="card-item__side -back">
           <div class="card-item__cover">
             <img
-              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
+              src="/img/cards_bg/2.svg"
               class="card-item__bg"
               alt="card item back"
             />
