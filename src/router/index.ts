@@ -8,9 +8,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: Routes.LIST,
-    name: "list",
-    component: () => import("../views/ListView.vue"),
+    path: Routes.CARD_LIST,
+    name: "cards_list",
+    component: () => import("../views/CardsListView.vue"),
   },
   {
     path: Routes.CARD,

@@ -79,18 +79,7 @@
             </div>
           </div>
         </div>
-        <Button
-          v-else
-          :btnConfig="{
-            type: 'submit',
-            text: 'Submit',
-            icon: { needShowIcon: true, direction: 'right', type: 'send' },
-            handler: {
-              func: () => null,
-              arg: null,
-            },
-          }"
-        />
+        <slot v-else></slot>
       </div>
     </form>
   </div>
@@ -101,8 +90,6 @@ import { Options, Vue } from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import { monthOptions, yearOptions } from "./data";
 import { cardModel } from "@/types";
-import { cardModule } from "@/store/CardModule";
-import Routes from "@/router/routes";
 
 // components
 import Card from "@/components/CreditCard/Card.vue";
@@ -145,6 +132,9 @@ export default class CreditCardForm extends Vue {
   @Prop({ type: Object })
   readonly defaultModels!: cardModel;
 
+  @Prop({ default: () => null, type: Function })
+  readonly customSubmit!: (cardModel) => void;
+
   @Watch("models.cardNumber")
   onCardNumberChanged(val: string) {
     this.models.cardType = cardNumberType(val);
@@ -170,13 +160,8 @@ export default class CreditCardForm extends Vue {
   }
 
   submit() {
-    cardModule.createCard(this.models);
     this.isLoading = true;
-
-    setTimeout(() => {
-      this.isLoading = false;
-      this.$router.push({ path: Routes.LIST });
-    }, 2000);
+    this.customSubmit(this.models);
   }
 }
 </script>

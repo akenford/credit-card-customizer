@@ -1,6 +1,6 @@
 enum Routes {
   HOME = "/",
-  LIST = "/list",
-  CARD = "/list/:id",
+  CARD_LIST = "/cards",
+  CARD = "/cards/:id",
 }
 export default Routes;

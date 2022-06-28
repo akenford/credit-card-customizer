@@ -67,7 +67,7 @@ export default class ListView extends Vue {
   }
 
   handleEditCard(id: number) {
-    this.$router.push({ path: `${Routes.LIST}/${id}` });
+    this.$router.push({ path: `${Routes.CARD_LIST}/${id}` });
   }
 
   handleDeleteCard(id: number) {

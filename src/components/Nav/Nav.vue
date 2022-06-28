@@ -24,7 +24,7 @@
               </li>
             </router-link>
             <li>
-              <router-link :to="routes.LIST" active-class="active">
+              <router-link :to="routes.CARD_LIST" active-class="active">
                 Cards List
               </router-link>
             </li>

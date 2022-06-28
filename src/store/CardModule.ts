@@ -44,6 +44,16 @@ class CardModule extends VuexModule {
     this.dataCollector.clientSet("cards", this.cards);
   }
 
+  @Mutation
+  updateCard(card: cardModel): void {
+    this.cards.splice(
+      this.cards.findIndex((i: cardModel) => i.id === card.id),
+      1,
+      card
+    );
+    this.dataCollector.clientSet("cards", this.cards);
+  }
+
   @Action
   createCard(card: cardModel): void {
     this.addCard(card);
@@ -52,6 +62,11 @@ class CardModule extends VuexModule {
   @Action
   removeCard(id: number): void {
     this.deleteCard(id);
+  }
+
+  @Action
+  editCard(card: cardModel): void {
+    this.updateCard(card);
   }
 }
 
