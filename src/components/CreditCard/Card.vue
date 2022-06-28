@@ -16,7 +16,7 @@
           ></div>
           <div class="card-item__cover">
             <img
-              :src="'/img/cards_bg/' + models.cardBackground + '.svg'"
+              :src="'img/cards_bg/' + models.cardBackground + '.svg'"
               class="card-item__bg"
               alt="card front bg"
             />
